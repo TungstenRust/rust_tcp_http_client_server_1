@@ -1,0 +1,11 @@
+[package]
+name = "rust_tcp_http_client_server_1"
+version = "0.1.0"
+edition = "2021"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+
+[workspace]
+members = ["tcp_server", "tcp_client", "http", "tcp_http_server" ]
