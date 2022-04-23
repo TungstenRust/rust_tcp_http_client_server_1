@@ -118,6 +118,7 @@ mod tests {
         assert_eq!(m, Version::V1_1);
     }
     #[test]
+    //Test simulation for parsing HTTP requests if they match left and right
     fn test_read_http() {
         // Simulating incoming HTTP request
         let s: String = String::from("GET /hello HTTP/1.1\r\nHost: localhost:9000\r\nUser-Agent: curl/7.82.0\r\nAccept: */*\r\n\r\n");
