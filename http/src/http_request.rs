@@ -36,7 +36,7 @@ impl From<String> for HttpRequest {
                 parsed_headers.insert(key, value);
                 //  If it is blank line, do nothing
             } else if line.len() == 0 {
-                // If none of these, treat it as message body
+                // If none of these, behave to it as message body
             } else {
                 parsed_msg_body = line;
             }
@@ -51,6 +51,42 @@ impl From<String> for HttpRequest {
         }
     }
 }
+
+//Parsing incoming HTTP requests: via process_req_line() function
+fn process_req_line(s: &str) -> (Method, Resource, Version) {
+    // Parse the request line into individual chunks split by whitespaces.
+    let mut words = s.split_whitespace();
+    // Extract the HTTP method from first part of the request line
+    let method = words.next().unwrap();
+    // Extract the resource (URI/URL) from second part of the request line
+    let resource = words.next().unwrap();
+    // Extract the HTTP version from third part of the request line
+    let version = words.next().unwrap();
+    (
+        method.into(),
+        Resource::Path(resource.to_string()),
+        version.into(),
+    )
+}
+
+// Parsing incoming HTTP requests: process_header_line() function
+fn process_header_line(s: &str) -> (String, String) {
+    // Parse the header line into words split by separator (':')
+    let mut header_items = s.split(":");
+    let mut key = String::from("");
+    let mut value = String::from("");
+    // Extract the key part of the header
+    if let Some(k) = header_items.next() {
+        key = k.to_string();
+    }
+    // Extract the value part of the header
+    if let Some(v) = header_items.next() {
+        value = v.to_string()
+    }
+
+    (key, value)
+}
+
 #[derive(Debug, PartialEq)]
 pub enum Method {
     Get,
@@ -80,6 +116,21 @@ mod tests {
     fn test_version_into() {
         let m: Version = "HTTP/1.1".into();
         assert_eq!(m, Version::V1_1);
+    }
+    #[test]
+    fn test_read_http() {
+        // Simulating incoming HTTP request
+        let s: String = String::from("GET /hello HTTP/1.1\r\nHost: localhost:9000\r\nUser-Agent: curl/7.82.0\r\nAccept: */*\r\n\r\n");
+        // Constructing incoming expected headers list
+        let mut headers_expected = HashMap::new();
+        headers_expected.insert("Host".into(), " localhost".into());
+        headers_expected.insert("Accept".into(), " */*".into());
+        headers_expected.insert("User-Agent".into(), " curl/7.82.0".into());
+        let req: HttpRequest = s.into();
+        assert_eq!(Method::Get, req.method);
+        assert_eq!(Version::V1_1, req.version);
+        assert_eq!(Resource::Path("/hello".to_string()), req.resource);
+        assert_eq!(headers_expected, req.headers);
     }
 }
 
