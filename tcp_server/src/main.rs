@@ -9,10 +9,11 @@ fn main() {
         //The stream is made mutable so I can read and write to it.
         let mut stream = stream.unwrap();
         println!("TCP Server Connection is established");
+        //Buffer size is taken for big amount of bytes for testing amount of info handled in one request
         let mut buffer = [0;4096];
         //Reading from incoming stream
         stream.read(&mut buffer).unwrap();
-        //Echo back whatever is received , to the client on the same connection
+        //Echo back whatever is received, to the client on the same session
         stream.write(&mut buffer).unwrap();
     }
 }
