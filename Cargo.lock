@@ -17,6 +17,9 @@ version = "0.1.0"
 [[package]]
 name = "tcp_http_server"
 version = "0.1.0"
+dependencies = [
+ "http",
+]
 
 [[package]]
 name = "tcp_server"
