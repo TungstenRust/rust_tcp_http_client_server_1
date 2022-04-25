@@ -1,4 +1,4 @@
-use http::{httprequest::HttpRequest, httpresponse::HttpResponse};
+use http::{http_request::HttpRequest, http_response::HttpResponse};
 use serde::{Deserialize, Serialize};
 use std::collections::HashMap;
 use std::env;
@@ -40,7 +40,7 @@ impl Handler for PageNotFoundHandler {
 impl Handler for StaticPageHandler {
     fn handle(req: &HttpRequest) -> HttpResponse {
         // Get the path of static page resource being requested
-        let http::httprequest::Resource::Path(s) = &req.resource;
+        let http::http_request::Resource::Path(s) = &req.resource;
 
         //Handler to serve static web pages
         // Parse the URI
@@ -81,7 +81,7 @@ impl WebServiceHandler {
 // Implement the Handler trait
 impl Handler for WebServiceHandler {
     fn handle(req: &HttpRequest) -> HttpResponse {
-        let http::httprequest::Resource::Path(s) = &req.resource;
+        let http::http_request::Resource::Path(s) = &req.resource;
 
         // Parse the URI
         let route: Vec<&str> = s.split("/").collect();

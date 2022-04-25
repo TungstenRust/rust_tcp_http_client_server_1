@@ -1,13 +1,13 @@
 use super::handler::{Handler, PageNotFoundHandler, StaticPageHandler, WebServiceHandler};
-use http::{httprequest, httprequest::HttpRequest, httpresponse::HttpResponse};
+use http::{http_request, http_request::HttpRequest, http_response::HttpResponse};
 use std::io::prelude::*;
 pub struct Router;
 impl Router {
     pub fn route(req: HttpRequest, stream: &mut impl Write) -> () {
         match req.method {
             // If GET request
-                httprequest::Method::Get => match &req.resource {
-                httprequest::Resource::Path(s) => {
+                http_request::Method::Get => match &req.resource {
+                http_request::Resource::Path(s) => {
                 // Parse the URI
                 let route: Vec<&str> = s.split("/").collect();
                 match route[1] {
