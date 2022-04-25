@@ -111,7 +111,7 @@ impl<'a> From<HttpResponse<'a>> for String {
 #[cfg(test)]
 mod tests {
     use super::*;
-    #[test]
+#[test]
     fn test_response_struct_creation_200() {
         let response_actual = HttpResponse::new(
             "200",
@@ -132,6 +132,7 @@ mod tests {
         assert_eq!(response_actual, response_expected);
     }
     //Test for 404 message
+#[test]
     fn test_response_struct_creation_404() {
         let response_actual = HttpResponse::new(
             "404",
@@ -151,6 +152,8 @@ mod tests {
         };
         assert_eq!(response_actual, response_expected);
     }
+    // Test for checking for well-formed HTTP response message
+#[test]
     fn test_http_response_creation() {
         let response_expected = HttpResponse {
             version: "HTTP/1.1",

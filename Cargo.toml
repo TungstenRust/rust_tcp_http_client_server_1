@@ -9,3 +9,4 @@ edition = "2021"
 
 [workspace]
 members = ["tcp_server", "tcp_client", "http", "tcp_http_server" ]
+http = {path = "../http"}
