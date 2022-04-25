@@ -116,7 +116,7 @@ mod tests {
         let response_actual = HttpResponse::new(
             "200",
             None,
-            Some("Item was shipped on 22st April 2022".into()),
+            Some("Item was shipped on 22nd April 2022".into()),
         );
         let response_expected = HttpResponse {
             version: "HTTP/1.1",
@@ -127,8 +127,44 @@ mod tests {
                 h.insert("Content-Type", "text/html");
                 Some(h)
             },
-            body: Some("Item was shipped on 22st April 2022".into()),
+            body: Some("Item was shipped on 22nd April 2022".into()),
         };
         assert_eq!(response_actual, response_expected);
+    }
+    //Test for 404 message
+    fn test_response_struct_creation_404() {
+        let response_actual = HttpResponse::new(
+            "404",
+            None,
+            Some("Item was shipped on 22nd April 2022".into()),
+        );
+        let response_expected = HttpResponse {
+            version: "HTTP/1.1",
+            status_code: "404",
+            status_text: "Not Found",
+            headers: {
+                let mut h = HashMap::new();
+                h.insert("Content-Type", "text/html");
+                Some(h)
+            },
+            body: Some("Item was shipped on 22nd April 2022".into()),
+        };
+        assert_eq!(response_actual, response_expected);
+    }
+    fn test_http_response_creation() {
+        let response_expected = HttpResponse {
+            version: "HTTP/1.1",
+            status_code: "404",
+            status_text: "Not Found",
+            headers: {
+                let mut h = HashMap::new();
+                h.insert("Content-Type", "text/html");
+                Some(h)
+            },
+            body: Some("Item was shipped on 22nd April 2022".into()),
+        };
+        let http_string: String = response_expected.into();
+        let response_actual = "HTTP/1.1 404 Not Found\r\nContent-Type:text/html\r\nContent-Length: 33\r\n\r\nItem was shipped on 22nd April 2022";
+        assert_eq!(http_string, response_actual);
     }
 }
